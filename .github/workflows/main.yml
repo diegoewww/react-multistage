@@ -22,12 +22,12 @@ jobs:
         with:
           node-version: 16
       - run: yarn install
-      - run: yarn lint && yarn test
-      #
-      #  - name: Compress Images
-      #   uses: calibreapp/image-actions@main
-      #   with:
-      #     githubToken: ${{ secrets.GITHUB_TOKEN }}
+      - run: yarn test
+      
+      - name: Compress Images
+        uses: calibreapp/image-actions@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
