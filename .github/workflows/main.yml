@@ -14,15 +14,28 @@ jobs:
       #     DEFAULT_BRANCH: main
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #
+      - name: Cache modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          #npm cache files are stored in npm
+          path: ~/.npm
+          key: ${{ runner.os}}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json')}}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+            
       - uses: actions/setup-node@v2
         with:
           node-version: 16
       - run: yarn install
       - run: yarn test
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        shell: bash
-        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      # - name: Get npm cache directory
+      #   id: npm-cache-dir
+      #   shell: bash
+      #   run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
