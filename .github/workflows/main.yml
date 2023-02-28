@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 16
       - run: yarn install
-      - run: yarn test
+      - run: yarn lint && yarn test
       #
       #  - name: Compress Images
       #   uses: calibreapp/image-actions@main
